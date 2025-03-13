@@ -2,7 +2,8 @@
 
 ## Debounce vs Throttle
 
-![Uploading Screenshot 2025-03-13 at 9.02.33 PM.png…]()
+<img width="866" alt="Screenshot 2025-03-13 at 9 11 05 PM" src="https://github.com/user-attachments/assets/9b8784db-bf22-4733-af67-b478084660ba" />
+
 
 Throttle:
 within delay, if the func is invoked, we don't execute it and it is ignored.
