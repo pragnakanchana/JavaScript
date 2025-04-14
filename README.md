@@ -289,7 +289,7 @@ console.log("reduce ", sum, sumWithPolyFill)
 ```
 
 ### Memoise
-```
+```javascript
 function calculation(a,b){
     for(let i = 0; i < 1000000000; i++){}
     return a+b;
