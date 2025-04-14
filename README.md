@@ -12,15 +12,29 @@ within delay, if the func is invoked, we see if there are any setTimeout ka CBs 
 # PolyFills
 ### Apply
 ```javascript
-Object.prototype.myApply = function(applyObj, params) {
-    if (typeof this !== "function") {
-      throw new Error(this + " is not a Function");
-    }
-    applyObj.tempFunction = this;
-    const result = applyObj.tempFunction(...params);
-    delete applyObj.tempFunction;
-    return result;
-  };
+Function.prototype.myApply = function (applyObj, params) {
+  if (typeof this !== "function") {
+    throw new Error(this + " is not a Function");
+  }
+
+  // Default to the global object if applyObj is not provided
+  applyObj = applyObj || globalThis;
+
+  // Ensure params is an array-like object, default to an empty array if not
+  params = Array.isArray(params) ? params : [];
+
+  // Temporarily assign the function to the context (applyObj)
+  applyObj.tempFunction = this;
+
+  // Execute the function with provided parameters
+  const result = applyObj.tempFunction(...params);
+
+  // Clean up the temporary property
+  delete applyObj.tempFunction;
+
+  return result;
+};
+
   
   let object1 = {
     name: "Pragna",
