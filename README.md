@@ -231,21 +231,52 @@ console.log("map ", double, doubleWithPolyfill);
 
 ### Reduce
 ```
-Array.prototype.reducePolyFill = function(callback, initialVal){
-    let i=0;
+if (!Array.prototype.myReduce) {
+  Array.prototype.myReduce = function(callback, initialValue) {
+    if (this == null) {
+      throw new TypeError("Array.prototype.myReduce called on null or undefined");
+    }
+
+    if (typeof callback !== "function") {
+      throw new TypeError(callback + " is not a function");
+    }
+
+    const arr = Object(this);
+    const length = arr.length >>> 0;
+
     let accumulator;
-    if(initialVal === undefined ){
-        accumulator = this[i];
-        i++;
+    let startIndex = 0;
+
+    // If initialValue is provided
+    if (arguments.length >= 2) {
+      accumulator = initialValue;
+    } else {
+      // Find the first defined value in the array
+      for (; startIndex < length; startIndex++) {
+          if (startIndex in arr) {
+                accumulator = arr[startIndex];
+                startIndex++;
+                break;
+          }
+      }
+
+      if (startIndex >= length) {
+        throw new TypeError("Reduce of empty array with no initial value");
+      }
+
+      accumulator = arr[startIndex++];
     }
-    else{
-        accumulator = initialVal
+
+    for (let i = startIndex; i < length; i++) {
+      if (i in arr) {
+        accumulator = callback(accumulator, arr[i], i, arr);
+      }
     }
-    for(; i < this.length; i++){
-        accumulator = callback(accumulator, this[i],i)
-    }
+
     return accumulator;
+  };
 }
+
 
 const arr = [1,2,3,4,5,6,7,8,9,10];
 const sum = arr.reduce((prevItem, curr, index)=>{
