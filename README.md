@@ -230,7 +230,7 @@ console.log("map ", double, doubleWithPolyfill);
 ```
 
 ### Reduce
-```
+```javascript
 if (!Array.prototype.myReduce) {
   Array.prototype.myReduce = function(callback, initialValue) {
     if (this == null) {
